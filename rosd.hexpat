@@ -28,7 +28,7 @@ struct JfifThumbnail {
 } [[sealed, fixed_size(THUMBNAIL_RESERVED_SIZE)]];
 
 struct Save {
-    u32 meta_chips @ $ + 0x29D88 [[comment("Value is multiplied by 10")]];
+    u64 meta_chips @ $ + 0x29D88 [[comment("Fixed-point integer; Least significant digit is used as the only decimal place")]];
     be JfifThumbnail thumbnail @ $ + 0x6302C;
 } [[static, fixed_size(SAVE_SIZE)]];
 
