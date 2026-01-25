@@ -49,7 +49,7 @@ struct TerminalUpgrades { // unlocked=0?, locked=ff
 } [[static]];
 
 struct CharacterStat {
-    u32 lv; // 0 based
+    u32 lv; // 0 based, decides unlocked pilot skills
     u32 exp;
     $ += 0x190;
 } [[static]];
