@@ -48,6 +48,12 @@ struct TerminalUpgrades { // unlocked=0?, locked=ff
     u8 score_boost[5] [[sealed]];
 } [[static]];
 
+struct CharacterStat {
+    u32 lv; // 0 based
+    u32 exp;
+    $ += 0x190;
+} [[static]];
+
 struct Save {
     u64 base = $;
 
@@ -57,6 +63,7 @@ struct Save {
     u64 meta_chips [[comment("Fixed-point integer; Least significant digit is used as the only decimal place")]];
     TerminalUpgrades terminal_upgrades;
     u32 mystery_points @ $ + 0xAFB70 [[comment("Clamped at 999")]];
+    CharacterStat char_stats[13] @ base + 0x37900;
     be JfifThumbnail thumbnail @ base + 0x6302C;
 } [[static, fixed_size(SAVE_SIZE)]];
 
