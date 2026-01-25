@@ -27,6 +27,27 @@ struct JfifThumbnail {
     // and so on... until EOI marker 0xFFD9
 } [[sealed, fixed_size(THUMBNAIL_RESERVED_SIZE)]];
 
+struct TerminalUpgrades { // unlocked=0?, locked=ff
+    u8 meta_system_lv[9] [[sealed]];
+    padding[1];
+    u8 score_multiplier[5] [[sealed]];
+    u8 score_multiplier_extra[4] [[sealed]];
+    u8 chips_multiplier[5] [[sealed]];
+    u8 chips_multiplier_extra[4] [[sealed]];
+    u8 meta_skill_use[3] [[sealed]];
+    u8 terminal_recovery;
+    u8 heal_team_hp;
+    u8 heal_team_ep;
+    u8 instant_team_cooldown;
+    u8 team_barrier;
+    u8 team_accelerate;
+    u8 power_boost;
+    u8 durability_boost;
+    u8 gravity;
+    u8 deploy_type_98_bipeds;
+    u8 score_boost[5] [[sealed]];
+} [[static]];
+
 struct Save {
     u64 base = $;
 
@@ -34,6 +55,7 @@ struct Save {
     u32 meta_system_lv; // 0 based
     u64 battle_score;
     u64 meta_chips [[comment("Fixed-point integer; Least significant digit is used as the only decimal place")]];
+    TerminalUpgrades terminal_upgrades;
     be JfifThumbnail thumbnail @ base + 0x6302C;
 } [[static, fixed_size(SAVE_SIZE)]];
 
