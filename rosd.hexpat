@@ -28,9 +28,13 @@ struct JfifThumbnail {
 } [[sealed, fixed_size(THUMBNAIL_RESERVED_SIZE)]];
 
 struct Save {
-    u64 battle_score @ $ + 0x29D80;
-    u64 meta_chips @ $ + 0x29D88 [[comment("Fixed-point integer; Least significant digit is used as the only decimal place")]];
-    be JfifThumbnail thumbnail @ $ + 0x6302C;
+    u64 base = $;
+
+    padding[0x29D7C];
+    u32 meta_system_lv; // 0 based
+    u64 battle_score;
+    u64 meta_chips [[comment("Fixed-point integer; Least significant digit is used as the only decimal place")]];
+    be JfifThumbnail thumbnail @ base + 0x6302C;
 } [[static, fixed_size(SAVE_SIZE)]];
 
 struct SaveFile {
