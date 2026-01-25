@@ -54,6 +54,18 @@ struct CharacterStat {
     $ += 0x190;
 } [[static]];
 
+struct CharacterBattleStat {
+    u32 brain_overload; // u32_max if max out of max left, else specific amount left
+    u32 hp;
+    u32 ep;
+    u32 status; // e.g. Standby FFs, Ready 00s
+} [[static]];
+
+struct BattleStat {
+    u32 win_streak;
+    CharacterBattleStat char_battle_stats[13]; // There seems to be reserved space for 3 more?
+} [[static]];
+
 struct Save {
     u64 base = $;
 
@@ -63,6 +75,7 @@ struct Save {
     u64 meta_chips [[comment("Fixed-point integer; Least significant digit is used as the only decimal place")]];
     TerminalUpgrades terminal_upgrades;
     u32 mystery_points @ $ + 0xAFB70 [[comment("Clamped at 999")]];
+    BattleStat battle_stat @ base + 0x377D4;
     CharacterStat char_stats[13] @ base + 0x37900;
     be JfifThumbnail thumbnail @ base + 0x6302C;
 } [[static, fixed_size(SAVE_SIZE)]];
