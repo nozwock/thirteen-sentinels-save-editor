@@ -74,7 +74,7 @@ struct Save {
     u64 battle_score;
     u64 meta_chips [[comment("Fixed-point integer; Least significant digit is used as the only decimal place")]];
     TerminalUpgrades terminal_upgrades;
-    u32 mystery_points @ $ + 0xAFB70 [[comment("Clamped at 999")]];
+    u32 mystery_points @ base + 0xAFB70 [[comment("Clamped at 999")]];
     BattleStat battle_stat @ base + 0x377D4;
     CharacterStat char_stats[13] @ base + 0x37900;
     be JfifThumbnail thumbnail @ base + 0x6302C;
