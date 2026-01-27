@@ -1,3 +1,5 @@
+#pragma description 13 Sentinels ROBO13 Save Data
+
 // Pattern file for ImHex
 // https://github.com/WerWolv/ImHex
 // https://docs.werwolv.net/pattern-language/
