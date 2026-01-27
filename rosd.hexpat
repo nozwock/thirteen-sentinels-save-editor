@@ -19,7 +19,7 @@ u64 SAVE_SIZE = 728376;
 // Guessed from image starting marker and CCs near the end of image
 u64 THUMBNAIL_RESERVED_SIZE = 204800;
 
-struct JfifThumbnail {
+struct JpegThumbnail {
     u16 soi_marker;
     u16 app0_marker;
     u16 length;
@@ -77,7 +77,7 @@ struct Save {
     u32 mystery_points @ base + 0xAFB70 [[comment("Clamped at 999")]];
     BattleStat battle_stat @ base + 0x377D4;
     CharacterStat char_stats[13] @ base + 0x37900;
-    be JfifThumbnail thumbnail @ base + 0x6302C;
+    be JpegThumbnail thumbnail @ base + 0x6302C;
 } [[static, fixed_size(SAVE_SIZE)]];
 
 struct SaveFile {
