@@ -87,6 +87,28 @@ struct BattleStat {
     CharacterBattleStat char_battle_stats[13]; // There seems to be reserved space for 3 more?
 } [[static]];
 
+struct Settings {
+    u32 auto_advance_wait; // u32 ones are slider steps
+    u32 bgm_volume;
+    u32 se_volume;
+    u32 voice_volume;
+    bool auto_advance;
+    bool dialouge_type;
+    bool thought_cloud_controls;
+    bool directional_buttons;
+    bool stop_on_unread;
+    bool;
+    bool auto_save;
+    bool character_intro;
+    u32 camera_zoom_speed;
+    u32 maximum_zoom_out;
+    u32 maximum_zoom_in;
+    bool;
+    bool audio_language;
+    bool subtitle_display;
+    bool;
+} [[static]];
+
 struct Save {
     u64 base = $;
 
@@ -98,6 +120,7 @@ struct Save {
     u32 mystery_points @ base + 0xAFB70 [[comment("Clamped at 999")]];
     BattleStat battle_stat @ base + 0x377D4;
     CharacterStat char_stats[13] @ base + 0x37900;
+    Settings settings @ base + 0x39280;
     be JpegThumbnail thumbnail @ base + 0x6302C;
 } [[static, fixed_size(SAVE_SIZE)]];
 
