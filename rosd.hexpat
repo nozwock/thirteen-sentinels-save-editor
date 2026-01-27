@@ -50,10 +50,29 @@ struct TerminalUpgrades { // unlocked=0?, locked=ff
     u8 score_boost[5] [[sealed]];
 } [[static]];
 
+enum SentinelUpgrade : u8 {
+    Armor,
+    Generator,
+    FireControl,
+    Actuator,
+    Neurolink
+};
+
+struct SentinelUpgrades {
+    u32 upgrade_lv[5];
+    padding[3 * 4];
+    u32 chips[5] [[comment("Invested meta-chips")]];
+    padding[3 * 4];
+    u32 chips_max[5] [[comment("meta-chips needed for next upgrade")]];
+    padding[3 * 4];
+} [[static]];
+
 struct CharacterStat {
     u32 lv; // 0 based, decides unlocked pilot skills
     u32 exp;
-    $ += 0x190;
+    padding[0x124];
+    SentinelUpgrades sentinel_upgrades;
+    padding[3 * 4];
 } [[static]];
 
 struct CharacterBattleStat {
