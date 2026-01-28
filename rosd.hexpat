@@ -51,7 +51,25 @@ struct TerminalUpgrades { // unlocked=0?, locked=ff
     u8 score_boost[5] [[sealed]];
 } [[static]];
 
-enum Character : u8 {
+// Character order for stats
+enum CharacterByStat : u8 {
+    NenjiOgata,
+    TakatoshiHijiyama,
+    JuroKurabe,
+    RyokoShinonome,
+    IoriFuyusaka,
+    TomiKisaragi,
+    NatsunoMinami,
+    KeitaroMiura,
+    ShuAmiguchi,
+    YukiTakamiya,
+    RenyaGouto,
+    EiSekigahara,
+    MegumiYakusiji,
+};
+
+// Character order for sentinel armament unlocks/upgrades
+enum CharacterByArms : u8 {
     NenjiOgata,
     TakatoshiHijiyama,
     EiSekigahara,
