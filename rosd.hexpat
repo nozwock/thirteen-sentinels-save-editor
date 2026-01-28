@@ -13,6 +13,7 @@
 
 import std.io;
 import std.core;
+import std.array;
 import std.limits as limits;
 import type.magic;
 
@@ -48,6 +49,30 @@ struct TerminalUpgrades { // unlocked=0?, locked=ff
     u8 gravity;
     u8 deploy_type_98_bipeds;
     u8 score_boost[5] [[sealed]];
+} [[static]];
+
+enum Character : u8 {
+    NenjiOgata,
+    TakatoshiHijiyama,
+    EiSekigahara,
+    JuroKurabe,
+    IoriFuyusaka,
+    RyokoShinonome,
+    NatsunoMinami,
+    TomiKisaragi,
+    KeitaroMiura,
+    MegumiYakusiji,
+    RenyaGouto,
+    YukiTakamiya,
+    ShuAmiguchi,
+};
+
+struct SentinelArmUpgrades {
+    // Some slots aren't in use
+    // unlocked=0?
+    std::Array<std::Array<u8, 16>, 13> char_base_arms;
+    padding[16 * 4];
+    std::Array<std::Array<u8, 2>, 13> char_alt_arms;
 } [[static]];
 
 enum SentinelUpgrade : u8 {
@@ -118,6 +143,8 @@ struct Save {
     u64 battle_score;
     u64 meta_chips [[comment("Fixed-point integer; Least significant digit is used as the only decimal place")]];
     TerminalUpgrades terminal_upgrades;
+    padding[8 * 3];
+    SentinelArmUpgrades sentinel_arms;
     u32 mystery_points @ base + 0xAFB70 [[comment("Clamped at 999")]];
     BattleStat battle_stat @ base + 0x377D4;
     CharacterStat char_stats[13] @ base + 0x37900;
