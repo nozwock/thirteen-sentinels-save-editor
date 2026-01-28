@@ -107,6 +107,7 @@ struct Settings {
     bool audio_language;
     bool subtitle_display;
     bool;
+    u32;
 } [[static]];
 
 struct Save {
