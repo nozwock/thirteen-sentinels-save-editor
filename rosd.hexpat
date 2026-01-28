@@ -135,8 +135,47 @@ struct Settings {
     u32;
 } [[static]];
 
+struct DateTime {
+    u16 year;
+    u8 month;
+    u8 day;
+    u8 hour;
+    u8 minute;
+    u8 second;
+    padding[1];
+} [[static, format("datetime_format")]];
+
+fn datetime_format(DateTime datetime) {
+    return std::format(
+        "{}/{}/{} {:02}:{:02}:{:02}",
+        datetime.year,
+        datetime.month,
+        datetime.day,
+        datetime.hour,
+        datetime.minute,
+        datetime.second
+    );
+};
+
+fn game_ticks_format(u32 ticks) {
+    u32 seconds = ticks / 60;
+    u8 hour =  seconds / 3600;
+    u8 minute = (seconds % 3600) / 60;
+    u8 second = seconds % 60;
+
+    return std::format(
+        "{:02}:{:02}:{:02}",
+        hour,
+        minute,
+        second
+    );
+};
+
 struct Save {
     u64 base = $;
+
+    DateTime save_time @ base + 0x42B0;
+    u32 playtime_ticks @ base + 0x42B8 [[format("game_ticks_format")]];
 
     padding[0x29D7C];
     u32 meta_system_lv; // 0 based
