@@ -189,6 +189,21 @@ fn game_ticks_format(u32 ticks) {
     );
 };
 
+fn bit_entry_name(u32 index, u32 offset, str prefix = "") {
+    return std::format("{}No. {}", prefix, index * 8 + offset);
+};
+
+bitfield MysteryBitEntry {
+    bool b0 : 1 [[name(bit_entry_name(std::core::array_index(), 0, "File "))]];
+    bool b1 : 1 [[name(bit_entry_name(std::core::array_index(), 1, "File "))]];
+    bool b2 : 1 [[name(bit_entry_name(std::core::array_index(), 2, "File "))]];
+    bool b3 : 1 [[name(bit_entry_name(std::core::array_index(), 3, "File "))]];
+    bool b4 : 1 [[name(bit_entry_name(std::core::array_index(), 4, "File "))]];
+    bool b5 : 1 [[name(bit_entry_name(std::core::array_index(), 5, "File "))]];
+    bool b6 : 1 [[name(bit_entry_name(std::core::array_index(), 6, "File "))]];
+    bool b7 : 1 [[name(bit_entry_name(std::core::array_index(), 7, "File "))]];
+} [[color("1e618f" /* blue */)]];
+
 enum GameMode : u32 {
     Remembrance = 1,
     Menu = 2,
@@ -215,6 +230,8 @@ struct Save {
     CharacterStat char_stats[13] @ base + 0x37900;
     Settings settings @ base + 0x39280;
     be JpegThumbnail thumbnail @ base + 0x6302C;
+    u8 viewed_mystery_file_entries[80] @ base + 0xB0570 [[sealed]]; // Bit array, ends at ??
+    MysteryBitEntry unlocked_mystery_files[32] @ base + 0xB1768; // Total 250 entries in-game
 } [[static, fixed_size(SAVE_SIZE)]];
 
 struct SaveFile {
