@@ -193,6 +193,17 @@ fn bit_entry_name(u32 index, u32 offset, str prefix = "") {
     return std::format("{}No. {}", prefix, index * 8 + offset);
 };
 
+bitfield ArchiveBitEntry {
+    bool b0 : 1 [[name(bit_entry_name(std::core::array_index(), 0, "Archive "))]];
+    bool b1 : 1 [[name(bit_entry_name(std::core::array_index(), 1, "Archive "))]];
+    bool b2 : 1 [[name(bit_entry_name(std::core::array_index(), 2, "Archive "))]];
+    bool b3 : 1 [[name(bit_entry_name(std::core::array_index(), 3, "Archive "))]];
+    bool b4 : 1 [[name(bit_entry_name(std::core::array_index(), 4, "Archive "))]];
+    bool b5 : 1 [[name(bit_entry_name(std::core::array_index(), 5, "Archive "))]];
+    bool b6 : 1 [[name(bit_entry_name(std::core::array_index(), 6, "Archive "))]];
+    bool b7 : 1 [[name(bit_entry_name(std::core::array_index(), 7, "Archive "))]];
+} [[color("a6262a" /* red */)]];
+
 bitfield MysteryBitEntry {
     bool b0 : 1 [[name(bit_entry_name(std::core::array_index(), 0, "File "))]];
     bool b1 : 1 [[name(bit_entry_name(std::core::array_index(), 1, "File "))]];
@@ -231,6 +242,7 @@ struct Save {
     Settings settings @ base + 0x39280;
     be JpegThumbnail thumbnail @ base + 0x6302C;
     u8 viewed_mystery_file_entries[80] @ base + 0xB0570 [[sealed]]; // Bit array, ends at ??
+    ArchiveBitEntry viewed_event_archives[40] @ base + 0xB1728; // Total 315 entries in-game
     MysteryBitEntry unlocked_mystery_files[32] @ base + 0xB1768; // Total 250 entries in-game
 } [[static, fixed_size(SAVE_SIZE)]];
 
