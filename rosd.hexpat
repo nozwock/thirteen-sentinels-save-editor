@@ -189,8 +189,16 @@ fn game_ticks_format(u32 ticks) {
     );
 };
 
+enum GameMode : u32 {
+    Remembrance = 1,
+    Menu = 2,
+    Destruction = 3,
+};
+
 struct Save {
     u64 base = $;
+
+    GameMode game_mode @ base + 0x1AAC;
 
     DateTime save_time @ base + 0x42B0;
     u32 playtime_ticks @ base + 0x42B8 [[format("game_ticks_format")]];
