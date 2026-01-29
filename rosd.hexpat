@@ -17,6 +17,46 @@ import std.array;
 import std.limits as limits;
 import type.magic;
 
+namespace string {
+    import std.string;
+
+    fn count_split_parts(str input, char delim) {
+        u32 i = 0;
+        u32 count = 1;
+
+        u32 len = std::string::length(input);
+
+        while (i < len) {
+            if (std::string::at(input, i) == delim) {
+                count += 1;
+            }
+            i += 1;
+        }
+
+        return count;
+    };
+
+    fn split(str input, char delim, ref auto out_arr) {
+        u32 len = std::string::length(input);
+
+        u32 i = 0;
+        u32 part_index = 0;
+        u32 start = 0;
+
+        while (i < len) {
+            if (std::string::at(input, i) == delim) {
+                out_arr[part_index] = std::string::substr(input, start, i - start);
+
+                part_index += 1;
+                start = i + 1;
+            }
+            i += 1;
+        }
+
+        out_arr[part_index] = std::string::substr(input, start, len - start);
+    };
+}
+
 // Guessed by repeating FFs (12 of them) from near start of the file above the 0x01 .. 0x20 bytes that I saw in diff
 u64 SAVE_SIZE = 728376;
 // Guessed from image starting marker and CCs near the end of image
@@ -189,6 +229,20 @@ fn game_ticks_format(u32 ticks) {
     );
 };
 
+fn game_ticks_format_write(str input) {
+    char delim = ':';
+    str playtime[string::count_split_parts(input, delim)];
+    string::split(input, delim, playtime);
+    if (std::core::member_count(playtime) != 3)
+        return;
+
+    u32 seconds = std::string::parse_int(playtime[0], 10) * 3600;
+    seconds += std::string::parse_int(playtime[1], 10) * 60;
+    seconds += std::string::parse_int(playtime[2], 10);
+
+    return seconds * 60;
+};
+
 fn bit_entry_name(u32 index, u32 offset, str prefix = "") {
     return std::format("{}No. {}", prefix, index * 8 + offset);
 };
@@ -227,7 +281,7 @@ struct Save {
     GameMode game_mode @ base + 0x1AAC;
 
     DateTime save_time @ base + 0x42B0;
-    u32 playtime_ticks @ base + 0x42B8 [[format("game_ticks_format")]];
+    u32 playtime_ticks @ base + 0x42B8 [[format("game_ticks_format"), format_write("game_ticks_format_write")]];
 
     padding[0x29D7C];
     u32 meta_system_lv; // 0 based
